@@ -52,7 +52,7 @@ const faq = [
   ["Para quem a coleção é indicada?", "Para estudantes e profissionais que desejam utilizar mapas mentais como apoio aos estudos na área da enfermagem e saúde."],
   ["Os mapas mentais substituem aulas e livros?", "Não. Eles são materiais complementares e devem ser utilizados junto a outras fontes confiáveis de estudo."],
   ["Como posso pagar?", "As formas de pagamento disponíveis serão apresentadas na página de checkout."],
-];
+] as const;
 
 function Cta({ children, href = "#oferta" }: { children: string; href?: string }) {
   return (
