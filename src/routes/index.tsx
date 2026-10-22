@@ -1,16 +1,43 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import {
   BookOpen, Brain, CheckCircle2, ClipboardList, Eye, FileDown, GraduationCap,
-  HeartPulse, Layers, RefreshCw, ShieldCheck, Sparkles, Stethoscope, Target, Users,
+  HeartPulse, Instagram, Layers, RefreshCw, ShieldCheck, Sparkles, Stethoscope, Target, Users,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import hero from "@/assets/hero-mockup.jpg";
+import { PRICE_FROM, PRICE_NOW, discountPercent, formatBRL } from "@/lib/pricing";
 
 const TITLE = "+350 Mapas Mentais para Enfermagem e Saúde";
 const DESC = "Coleção digital com mais de 350 mapas mentais para estudar enfermagem e saúde de forma visual, prática e organizada.";
-// Substitua pelo link real de pagamento antes de publicar.
-const CHECKOUT_URL = "#oferta";
+const CHECKOUT_URL = "https://pay.kiwify.com.br/m2nKRJv";
+const INSTAGRAM = "kitenfermagemoficial";
+const PROMO_SECONDS = 15 * 60;
+const PROMO_KEY = "promo-ends-at";
+
+function Countdown() {
+  const [left, setLeft] = useState(PROMO_SECONDS);
+  useEffect(() => {
+    let end = Number(localStorage.getItem(PROMO_KEY));
+    if (!end || end < Date.now()) {
+      end = Date.now() + PROMO_SECONDS * 1000;
+      localStorage.setItem(PROMO_KEY, String(end));
+    }
+    const tick = () => setLeft(Math.max(0, Math.round((end - Date.now()) / 1000)));
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, []);
+  const mm = String(Math.floor(left / 60)).padStart(2, "0");
+  const ss = String(left % 60).padStart(2, "0");
+  return (
+    <div className="mt-8">
+      <p className="text-sm font-semibold text-deep">A oferta termina em:</p>
+      <p className="mt-2 inline-block rounded-xl bg-deep px-5 py-2 font-mono text-3xl font-extrabold tabular-nums text-deep-foreground">{mm}:{ss}</p>
+    </div>
+  );
+}
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -137,8 +164,13 @@ function Index() {
                 <li key={x} className="flex gap-3"><CheckCircle2 className="h-5 w-5 shrink-0 text-primary" />{x}</li>
               ))}
             </ul>
-            <p className="mt-8 text-sm text-muted-foreground">Por apenas</p>
-            <p className="text-5xl font-extrabold text-deep">R$ 27,99</p>
+            <Countdown />
+            <div className="mt-6 flex items-center justify-center gap-3">
+              <span className="text-lg text-muted-foreground line-through">De {formatBRL(PRICE_FROM)}</span>
+              <span className="rounded-full bg-destructive px-3 py-1 text-sm font-extrabold text-destructive-foreground">{discountPercent(PRICE_FROM, PRICE_NOW)}% OFF</span>
+            </div>
+            <p className="mt-3 text-sm text-muted-foreground">Por apenas</p>
+            <p className="text-5xl font-extrabold text-primary">{formatBRL(PRICE_NOW)}</p>
             <div className="mt-8"><Cta href={CHECKOUT_URL}>QUERO MEUS +350 MAPAS MENTAIS</Cta></div>
           </div>
         </div>
@@ -178,6 +210,9 @@ function Index() {
               <a key={l} href="#" className="hover:text-primary">{l}</a>
             ))}
           </nav>
+          <a href={`https://instagram.com/${INSTAGRAM}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 hover:text-primary">
+            <Instagram className="h-5 w-5" /> @{INSTAGRAM}
+          </a>
           <p>© {new Date().getFullYear()} Todos os direitos reservados.</p>
         </div>
       </footer>
