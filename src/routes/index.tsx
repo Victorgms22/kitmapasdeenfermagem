@@ -15,6 +15,55 @@ const CHECKOUT_URL = "https://pay.cakto.com.br/r2wd3k5_1235643";
 const INSTAGRAM = "kitenfermagemoficial";
 const PROMO_SECONDS = 15 * 60;
 const PROMO_KEY = "promo-ends-at";
+const TRACKING_KEYS = [
+  "utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "sck", "fbclid", "src",
+] as const;
+const TRACKING_STORAGE_KEY = "checkout-tracking-params";
+
+function readSavedTrackingParams(): Record<string, string> {
+  if (typeof window === "undefined") return {};
+  try {
+    return JSON.parse(sessionStorage.getItem(TRACKING_STORAGE_KEY) ?? "{}") as Record<string, string>;
+  } catch {
+    return {};
+  }
+}
+
+// Só chamar de dentro de um useEffect: lê window.location.search e sessionStorage.
+function saveTrackingParams() {
+  if (typeof window === "undefined") return;
+  const saved = readSavedTrackingParams();
+  const url = new URLSearchParams(window.location.search);
+  for (const key of TRACKING_KEYS) {
+    const value = url.get(key);
+    if (value) saved[key] = value;
+  }
+  sessionStorage.setItem(TRACKING_STORAGE_KEY, JSON.stringify(saved));
+}
+
+// Só chamar depois que a página montar: preserva query params já existentes no
+// CHECKOUT_URL e não duplica nenhum parâmetro salvo.
+function buildCheckoutUrl() {
+  if (typeof window === "undefined") return CHECKOUT_URL;
+  const saved = readSavedTrackingParams();
+  const keys = Object.keys(saved);
+  if (keys.length === 0) return CHECKOUT_URL;
+  const url = new URL(CHECKOUT_URL);
+  for (const key of keys) {
+    const value = saved[key];
+    if (value && !url.searchParams.has(key)) url.searchParams.set(key, value);
+  }
+  return url.toString();
+}
+
+function useCheckoutUrl() {
+  const [href, setHref] = useState(CHECKOUT_URL);
+  useEffect(() => {
+    saveTrackingParams();
+    setHref(buildCheckoutUrl());
+  }, []);
+  return href;
+}
 
 function Countdown() {
   const [left, setLeft] = useState(PROMO_SECONDS);
@@ -109,6 +158,7 @@ function Card({ icon: Icon, t, d }: { icon: typeof Brain; t: string; d: string }
 }
 
 function Index() {
+  const checkoutUrl = useCheckoutUrl();
   return (
     <main className="font-sans">
       {/* Hero */}
@@ -171,7 +221,7 @@ function Index() {
             </div>
             <p className="mt-3 text-sm text-muted-foreground">Por apenas</p>
             <p className="text-5xl font-extrabold text-primary">{formatBRL(PRICE_NOW)}</p>
-            <div className="mt-8"><Cta href={CHECKOUT_URL}>QUERO MEUS +350 MAPAS MENTAIS</Cta></div>
+            <div className="mt-8"><Cta href={checkoutUrl}>QUERO MEUS +350 MAPAS MENTAIS</Cta></div>
           </div>
         </div>
       </section>
@@ -199,7 +249,7 @@ function Index() {
 
       <section className="bg-deep-gradient px-5 py-20 text-center text-deep-foreground">
         <Heading light title="Transforme a maneira como você revisa os conteúdos" sub="Tenha mais de 350 mapas mentais para complementar seus estudos de enfermagem e saúde." />
-        <Cta href={CHECKOUT_URL}>QUERO ACESSAR A COLEÇÃO</Cta>
+        <Cta href={checkoutUrl}>QUERO ACESSAR A COLEÇÃO</Cta>
       </section>
 
       <footer className="border-t border-deep-foreground/10 bg-deep px-5 py-10 text-sm text-deep-foreground/70">
