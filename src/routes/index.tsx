@@ -15,6 +15,54 @@ const CHECKOUT_URL = "https://pay.cakto.com.br/r2wd3k5_1235643";
 const INSTAGRAM = "kitenfermagemoficial";
 const PROMO_SECONDS = 15 * 60;
 const PROMO_KEY = "promo-ends-at";
+const TRACKING_KEYS = [
+  "utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "sck", "fbclid", "src",
+] as const;
+const TRACKING_STORAGE_KEY = "checkout-tracking-params";
+
+function readSavedTrackingParams(): Record<string, string> {
+  if (typeof window === "undefined") return {};
+  try {
+    return JSON.parse(sessionStorage.getItem(TRACKING_STORAGE_KEY) ?? "{}") as Record<string, string>;
+  } catch {
+    return {};
+  }
+}
+
+// Só chamar de dentro de um useEffect: lê window.location.search e sessionStorage.
+function saveTrackingParams() {
+  if (typeof window === "undefined") return;
+  const saved = readSavedTrackingParams();
+  const url = new URLSearchParams(window.location.search);
+  for (const key of TRACKING_KEYS) {
+    const value = url.get(key);
+    if (value) saved[key] = value;
+  }
+  sessionStorage.setItem(TRACKING_STORAGE_KEY, JSON.stringify(saved));
+}
+
+// Só chamar depois que a página montar: preserva query params já existentes no
+// CHECKOUT_URL e não duplica nenhum parâmetro salvo.
+function buildCheckoutUrl() {
+  if (typeof window === "undefined") return CHECKOUT_URL;
+  const saved = readSavedTrackingParams();
+  const keys = Object.keys(saved);
+  if (keys.length === 0) return CHECKOUT_URL;
+  const url = new URL(CHECKOUT_URL);
+  for (const key of keys) {
+    if (!url.searchParams.has(key)) url.searchParams.set(key, saved[key]);
+  }
+  return url.toString();
+}
+
+function useCheckoutUrl() {
+  const [href, setHref] = useState(CHECKOUT_URL);
+  useEffect(() => {
+    saveTrackingParams();
+    setHref(buildCheckoutUrl());
+  }, []);
+  return href;
+}
 
 function Countdown() {
   const [left, setLeft] = useState(PROMO_SECONDS);
