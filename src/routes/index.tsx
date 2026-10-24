@@ -11,7 +11,7 @@ import { PRICE_FROM, PRICE_NOW, discountPercent, formatBRL } from "@/lib/pricing
 
 const TITLE = "+350 Mapas Mentais para Enfermagem e Saúde";
 const DESC = "Coleção digital com mais de 350 mapas mentais para estudar enfermagem e saúde de forma visual, prática e organizada.";
-const CHECKOUT_URL = "https://pay.kiwify.com.br/m2nKRJv";
+const CHECKOUT_URL = "https://pay.cakto.com.br/r2wd3k5_1235643";
 const INSTAGRAM = "kitenfermagemoficial";
 const PROMO_SECONDS = 15 * 60;
 const PROMO_KEY = "promo-ends-at";
