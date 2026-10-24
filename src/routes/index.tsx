@@ -50,7 +50,8 @@ function buildCheckoutUrl() {
   if (keys.length === 0) return CHECKOUT_URL;
   const url = new URL(CHECKOUT_URL);
   for (const key of keys) {
-    if (!url.searchParams.has(key)) url.searchParams.set(key, saved[key]);
+    const value = saved[key];
+    if (value && !url.searchParams.has(key)) url.searchParams.set(key, value);
   }
   return url.toString();
 }
