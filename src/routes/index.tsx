@@ -220,7 +220,7 @@ function Index() {
             </div>
             <p className="mt-3 text-sm text-muted-foreground">Por apenas</p>
             <p className="text-5xl font-extrabold text-primary">{formatBRL(PRICE_NOW)}</p>
-            <div className="mt-8"><Cta href={CHECKOUT_URL}>QUERO MEUS +350 MAPAS MENTAIS</Cta></div>
+            <div className="mt-8"><Cta href={checkoutUrl}>QUERO MEUS +350 MAPAS MENTAIS</Cta></div>
           </div>
         </div>
       </section>
@@ -248,7 +248,7 @@ function Index() {
 
       <section className="bg-deep-gradient px-5 py-20 text-center text-deep-foreground">
         <Heading light title="Transforme a maneira como você revisa os conteúdos" sub="Tenha mais de 350 mapas mentais para complementar seus estudos de enfermagem e saúde." />
-        <Cta href={CHECKOUT_URL}>QUERO ACESSAR A COLEÇÃO</Cta>
+        <Cta href={checkoutUrl}>QUERO ACESSAR A COLEÇÃO</Cta>
       </section>
 
       <footer className="border-t border-deep-foreground/10 bg-deep px-5 py-10 text-sm text-deep-foreground/70">
