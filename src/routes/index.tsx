@@ -157,6 +157,7 @@ function Card({ icon: Icon, t, d }: { icon: typeof Brain; t: string; d: string }
 }
 
 function Index() {
+  const checkoutUrl = useCheckoutUrl();
   return (
     <main className="font-sans">
       {/* Hero */}
