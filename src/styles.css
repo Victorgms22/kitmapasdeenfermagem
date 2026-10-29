@@ -151,6 +151,11 @@
   }
 }
 
+@keyframes bf-shine {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(400%); }
+}
+
 @utility bg-deep-gradient { background: var(--gradient-deep); }
 @utility shadow-soft { box-shadow: var(--shadow-soft); }
 @utility shadow-glow { box-shadow: var(--shadow-glow); }
