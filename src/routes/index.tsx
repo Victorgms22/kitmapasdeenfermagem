@@ -189,16 +189,7 @@ function Index() {
   return (
     <main className="font-sans">
       {/* Barra Black Friday */}
-      <div className="fixed inset-x-0 top-0 z-50 flex h-12 flex-col items-center justify-center overflow-hidden border-b border-[#F6C453]/30 bg-[#0A0A0A] leading-tight">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(246,196,83,0.22),transparent_70%)]" />
-        <div className="pointer-events-none absolute inset-y-0 w-1/3 animate-[bf-shine_3s_linear_infinite] bg-gradient-to-r from-transparent via-[#F6C453]/30 to-transparent" />
-        <p className="relative flex items-center gap-2 text-sm font-extrabold tracking-[0.25em] text-[#F6C453] drop-shadow-[0_0_10px_rgba(246,196,83,0.7)]">
-          <Sparkles className="h-3.5 w-3.5" /> BLACK FRIDAY <Sparkles className="h-3.5 w-3.5" />
-        </p>
-        <p className="relative text-[10px] font-bold uppercase tracking-[0.3em] text-white/90">
-          só esse mês · termina em <span className="font-mono tabular-nums text-[#F6C453]">{formatMMSS(usePromoLeft())}</span>
-        </p>
-      </div>
+      <BlackFridayBar />
       <div className="h-12" aria-hidden="true" />
 
       {/* Hero */}
