@@ -65,7 +65,7 @@ function useCheckoutUrl() {
   return href;
 }
 
-function Countdown() {
+function usePromoLeft() {
   const [left, setLeft] = useState(PROMO_SECONDS);
   useEffect(() => {
     let end = Number(localStorage.getItem(PROMO_KEY));
@@ -78,6 +78,17 @@ function Countdown() {
     const id = setInterval(tick, 1000);
     return () => clearInterval(id);
   }, []);
+  return left;
+}
+
+function formatMMSS(left: number) {
+  const mm = String(Math.floor(left / 60)).padStart(2, "0");
+  const ss = String(left % 60).padStart(2, "0");
+  return `${mm}:${ss}`;
+}
+
+function Countdown() {
+  const left = usePromoLeft();
   const mm = String(Math.floor(left / 60)).padStart(2, "0");
   const ss = String(left % 60).padStart(2, "0");
   return (
