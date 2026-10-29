@@ -161,6 +161,13 @@ function Index() {
   const checkoutUrl = useCheckoutUrl();
   return (
     <main className="font-sans">
+      {/* Barra Black Friday */}
+      <div className="fixed inset-x-0 top-0 z-50 flex h-12 flex-col items-center justify-center bg-[#0A0A0A] leading-tight">
+        <p className="text-sm font-extrabold tracking-widest text-[#F6C453]">BLACK FRIDAY</p>
+        <p className="text-[11px] font-semibold text-white">só esse mês</p>
+      </div>
+      <div className="h-12" aria-hidden="true" />
+
       {/* Hero */}
       <section className="bg-deep-gradient text-deep-foreground">
         <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 py-16 md:grid-cols-2 md:py-24">
