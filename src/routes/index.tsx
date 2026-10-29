@@ -179,7 +179,9 @@ function Index() {
         <p className="relative flex items-center gap-2 text-sm font-extrabold tracking-[0.25em] text-[#F6C453] drop-shadow-[0_0_10px_rgba(246,196,83,0.7)]">
           <Sparkles className="h-3.5 w-3.5" /> BLACK FRIDAY <Sparkles className="h-3.5 w-3.5" />
         </p>
-        <p className="relative text-[10px] font-bold uppercase tracking-[0.35em] text-white/90">só esse mês</p>
+        <p className="relative text-[10px] font-bold uppercase tracking-[0.3em] text-white/90">
+          só esse mês · termina em <span className="font-mono tabular-nums text-[#F6C453]">{formatMMSS(usePromoLeft())}</span>
+        </p>
       </div>
       <div className="h-12" aria-hidden="true" />
 
