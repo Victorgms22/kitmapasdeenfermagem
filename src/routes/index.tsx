@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import hero from "@/assets/hero-mockup.jpg";
 import { PRICE_FROM, PRICE_NOW, discountPercent, formatBRL } from "@/lib/pricing";
+import { trackBuyClick } from "@/lib/meta-pixel";
 
 const TITLE = "+350 Mapas Mentais para Enfermagem e Saúde";
 const DESC = "Coleção digital com mais de 350 mapas mentais para estudar enfermagem e saúde de forma visual, prática e organizada.";
@@ -160,7 +161,7 @@ const faq = [
 function Cta({ children, href = "#oferta" }: { children: string; href?: string }) {
   return (
     <Button asChild variant="cta">
-      <a href={href}>{children}</a>
+      <a href={href} onClick={href.startsWith(CHECKOUT_URL) ? trackBuyClick : undefined}>{children}</a>
     </Button>
   );
 }
@@ -288,9 +289,10 @@ function Index() {
           <p className="font-bold text-deep-foreground">{TITLE}</p>
           <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2">
             {["Contato e suporte", "Política de privacidade", "Termos de uso", "Política de compra e reembolso"].map((l) => (
-              <a key={l} href="#" className="hover:text-primary">{l}</a>
+              <a key={l} href={l === "Política de privacidade" ? "/privacidade" : "#"} className="hover:text-primary">{l}</a>
             ))}
           </nav>
+          <Button variant="link" onClick={() => window.dispatchEvent(new Event("open-cookie-settings"))}>Configurações de cookies</Button>
           <a href={`https://instagram.com/${INSTAGRAM}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 hover:text-primary">
             <Instagram className="h-5 w-5" /> @{INSTAGRAM}
           </a>
