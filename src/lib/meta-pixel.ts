@@ -56,4 +56,4 @@ export function trackBuyClick() {
   try { window.fbq("trackCustom", "ClicouComprar"); } catch { /* Checkout remains available if blocked. */ }
 }
 // Official queue bootstrap only; the remote SDK, initialization and events wait for permission.
-export const PIXEL_BOOTSTRAP = `(function(f){if(f.fbq)return;var n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(Array.from(arguments))};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=true;n.version='2.0';n.queue=[];})(window);`;
+export const PIXEL_BOOTSTRAP = `(function(f){if(f.fbq)return;var n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=true;n.version='2.0';n.queue=[];})(window);`;
