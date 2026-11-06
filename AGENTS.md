@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep Meta Pixel bootstrapping inert in root head; load the SDK and report events only through the shared advertising-permission module so checkout events and consent withdrawal stay synchronized.
