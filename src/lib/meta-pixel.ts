@@ -18,7 +18,7 @@ declare global {
 export type ConsentRecord = {
   visitor: string; region: string; choice: "accepted" | "rejected";
   time: string; noticeVersion: string; notice: string;
-  choicesShown: string[]; acceptedAt?: string;
+  choicesShown: string[]; acceptedAt?: string | undefined;
 };
 export function permitsAdvertising(region: string, choice?: string, gpc = false) {
   if (gpc || choice === "rejected") return false;
